@@ -1,4 +1,18 @@
 <script>
+  import { searchId, searchById, productsList } from '../store/store';
+  import { getProductsById, getAllProducts } from '../utils/api';
+
+  async function handleSubmit() {
+    /* check if searchbox is empty 
+    -> if empty will search for all products instead
+    -> if not empty will search by that product id
+    */
+    if ($searchId.trim().length === 0) {
+      $productsList = await getAllProducts();
+    } else {
+      $productsList = [await getProductsById($searchId)];
+    }
+  }
 </script>
 
 <nav>
@@ -7,6 +21,9 @@
       <img src="src/assets/img/logo.JPG" alt="LOGO" />
       <p>Wöndèrkidź</p>
     </div>
+    <form class="searchBar" on:submit|preventDefault={handleSubmit}>
+      <input type="text" placeholder="Search..." bind:value={$searchId} />
+    </form>
   </div>
 </nav>
 
@@ -75,7 +92,15 @@
       text-decoration: underline;
     }
   }
-
+  .searchBar {
+    & input {
+      outline: none;
+      appearance: none;
+      border: 1px solid var(--color-grey);
+      padding: 1rem;
+      border-radius: 2.5rem;
+    }
+  }
   /* tablet screen size */
   @media screen and (min-width: 767px) and (max-width: 1023px) {
     nav {

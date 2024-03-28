@@ -1,18 +1,24 @@
 <script>
   import Product from '../miniComponent/Product.svelte';
   import { getAllProducts } from '../utils/api';
-  let selectTab = 'All Products';
+  import { searchById, productsList } from '../store/store';
+  import { onMount } from 'svelte';
+  onMount(async () => {
+    $productsList = await getAllProducts();
+  });
 </script>
 
 <main>
   <div class="wrapper">
-    {#await getAllProducts()}
-      ...waiting
-    {:then products}
-      {#each products as product}
+    <!-- check if the product list is not empty array object and the first object is not empty -->
+
+    {#if $productsList.length > 0 && Object.keys($productsList[0]).length !== 0}
+      {#each $productsList as product}
         <Product {product} />
       {/each}
-    {/await}
+    {:else}
+      <p>No Result Found</p>
+    {/if}
   </div>
 </main>
 
@@ -25,6 +31,7 @@
     align-items: center;
     overflow: scroll;
     scroll-behavior: smooth;
+    padding: 5% 0;
   }
 
   .wrapper {

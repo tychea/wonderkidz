@@ -1,18 +1,18 @@
 <script>
   export let product = {
-    id: 'gd1',
-    title: 'image title',
-    price: 0.5,
-    image: '',
+    id: '',
+    name: 'image name',
+    price: 0,
+    imgUrl: '',
   };
 </script>
 
 <div class="container">
-  <img src={product.image} alt={product.title} />
+  <img src={product.imgUrl} alt={product.name} />
 
   <ul>
     <li class="truncatedText">
-      {product.title}
+      {product.name}
     </li>
     <li>
       {product.price}
